@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.18)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+project(ChatGPT-On-QQ LANGUAGES CXX)
+
+if (NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE Release)
+endif()
+
+if (WIN32)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+endif()
+
+if (NOT MSVC)
+	find_program(CCACHE_PROGRAM ccache)
+	if (CCACHE_PROGRAM)
+		message(STATUS "Found CCache: ${CCACHE_PROGRAM}")
+		set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ${CCACHE_PROGRAM})
+		set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ${CCACHE_PROGRAM})
+	endif()
+endif()
+
+add_subdirectory(src)
